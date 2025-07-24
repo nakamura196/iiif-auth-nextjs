@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <!-- IIIF Logo inspired design -->
+  <rect width="512" height="512" rx="64" fill="#2563eb"/>
+  
+  <!-- Lock icon for authentication -->
+  <g transform="translate(256, 256)">
+    <path d="M-80 -40 v-40 a80 80 0 0 1 160 0 v40 h-20 v-40 a60 60 0 0 0 -120 0 v40 z" fill="white" opacity="0.9"/>
+    <rect x="-100" y="-40" width="200" height="140" rx="20" fill="white" opacity="0.9"/>
+    <circle cx="0" cy="10" r="20" fill="#2563eb"/>
+    <path d="M0 20 l-10 30 h20 z" fill="#2563eb"/>
+  </g>
+  
+  <!-- IIIF text -->
+  <text x="256" y="420" font-family="Arial, sans-serif" font-size="64" font-weight="bold" text-anchor="middle" fill="white">IIIF AUTH</text>
+</svg>

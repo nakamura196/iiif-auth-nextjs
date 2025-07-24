@@ -1,0 +1,60 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "http://localhost:3001/api/iiif/manifest/sample",
+  "type": "Manifest",
+  "label": {
+    "en": ["Protected Sample Manifest"]
+  },
+  "metadata": [
+    {
+      "label": { "en": ["Description"] },
+      "value": { "en": ["This is a sample manifest with authentication"] }
+    }
+  ],
+  "items": [
+    {
+      "id": "http://localhost:3001/api/iiif/manifest/sample/canvas/1",
+      "type": "Canvas",
+      "label": {
+        "en": ["Protected Image"]
+      },
+      "height": 3000,
+      "width": 2000,
+      "items": [
+        {
+          "id": "http://localhost:3001/api/iiif/manifest/sample/canvas/1/page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http://localhost:3001/api/iiif/manifest/sample/canvas/1/annotation",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "http://localhost:3001/api/iiif/image/sample/full/max/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "id": "http://localhost:3001/api/iiif/image/sample",
+                    "type": "ImageService3",
+                    "profile": "level2",
+                    "service": [
+                      {
+                        "@context": "http://iiif.io/api/auth/2/context.json",
+                        "id": "http://localhost:3001/api/iiif/probe",
+                        "type": "AuthProbeService2"
+                      }
+                    ]
+                  }
+                ],
+                "height": 3000,
+                "width": 2000
+              },
+              "target": "http://localhost:3001/api/iiif/manifest/sample/canvas/1"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

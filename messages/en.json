@@ -1,0 +1,179 @@
+{
+  "common": {
+    "home": "Home",
+    "login": "Login",
+    "logout": "Logout",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "notAuthenticated": "Not authenticated",
+    "authenticated": "Authenticated",
+    "authenticationRequired": "Authentication required",
+    "clearAuthentication": "Clear Authentication",
+    "token": "Token"
+  },
+  "navigation": {
+    "simpleViewer": "Simple Viewer",
+    "openSeadragon": "OpenSeadragon",
+    "leafletIIIF": "Leaflet IIIF",
+    "mirador": "Mirador",
+    "jwtDebug": "JWT Debug",
+    "infoJsonDebug": "info.json Debug",
+    "probeDebug": "Probe Debug",
+    "tokenDebug": "Token Debug"
+  },
+  "home": {
+    "title": "IIIF Authentication API 2.0 Demo",
+    "description": "This demo implements the IIIF Authentication API 2.0 specification",
+    "features": {
+      "title": "Features",
+      "auth": "Full IIIF Authentication API 2.0 implementation",
+      "viewers": "Multiple IIIF viewer integrations",
+      "jwt": "JWT-based token authentication",
+      "persistence": "Cross-tab authentication persistence"
+    },
+    "gettingStarted": {
+      "title": "Getting Started",
+      "step1": "Click \"Authenticate\" below or use the Login button in the header",
+      "step2": "Use demo credentials: user/pass",
+      "step3": "Visit any viewer page to see protected IIIF content"
+    },
+    "authenticate": "Authenticate",
+    "authenticateDescription": "Click to open IIIF authentication flow",
+    "authWindow": "Authentication window should open. Use credentials: user/pass"
+  },
+  "auth": {
+    "title": "IIIF Authentication Demo",
+    "username": "Username",
+    "password": "Password",
+    "logIn": "Log In",
+    "invalidCredentials": "Invalid credentials",
+    "authenticationFailed": "Authentication failed",
+    "demoCredentials": "Demo credentials: user/pass"
+  },
+  "authStatus": {
+    "status": "Authentication Status",
+    "authenticated": "Authenticated",
+    "notAuthenticated": "Not Authenticated",
+    "tokenPrefix": "Token"
+  },
+  "viewers": {
+    "loadProtectedImage": "Load Protected Image",
+    "authRequired": "Authentication required. A login window should have opened.",
+    "useCredentials": "Use credentials: user/pass",
+    "protectedImage": "Protected Image",
+    "imageLoadedSimple": "Image loaded successfully (simple mode)",
+    "imageLoaded": "Image loaded successfully",
+    "errorLoadingImage": "Error loading image",
+    "failedToLoadImage": "Failed to load image"
+  },
+  "simpleViewer": {
+    "title": "Simple IIIF Image Viewer"
+  },
+  "openSeadragonViewer": {
+    "title": "OpenSeadragon IIIF Viewer",
+    "readyToLoad": "Ready to load image",
+    "authRequiredMessage": "Login window should open automatically"
+  },
+  "leafletViewer": {
+    "title": "Leaflet IIIF Viewer"
+  },
+  "miradorViewer": {
+    "title": "Mirador IIIF Viewer",
+    "notAuthMessage": "Not authenticated - images may not load",
+    "reloading": "Authenticated! Reloading viewer...",
+    "cleared": "Authentication cleared. Reloading..."
+  },
+  "jwtDebug": {
+    "title": "JWT Debug Tool",
+    "components": "JWT Components",
+    "rawToken": "Raw Token",
+    "header": "Header",
+    "payload": "Payload",
+    "signature": "Signature",
+    "signatureNote": "Note: Signature verification requires the server's secret key",
+    "tokenValid": "Token is valid",
+    "tokenExpired": "Token has expired",
+    "expiresIn": "expires in {minutes} minutes",
+    "noToken": "No authentication token found. Please authenticate first.",
+    "viewOnJwtIo": "View on jwt.io",
+    "externalTool": "External debugging tool",
+    "jwtIoNote": "Note: jwt.io will show 'signature verification failed' because it doesn't have access to our server's secret key. This is normal and expected."
+  },
+  "infoJsonDebug": {
+    "title": "IIIF Image API info.json Debug",
+    "imageId": "Image ID",
+    "enterImageId": "Enter image ID",
+    "loadInfoJson": "Load info.json",
+    "endpoint": "Endpoint",
+    "response": "Response",
+    "formattedView": "Formatted View",
+    "rawJson": "Raw JSON",
+    "syntaxHighlighted": "Syntax Highlighted",
+    "context": "Context",
+    "dimensions": "Dimensions",
+    "pixels": "{width} × {height} pixels",
+    "services": "Services",
+    "service": "Service",
+    "enterImageIdMessage": "Enter an image ID and click \"Load info.json\" to see the IIIF Image Information response"
+  },
+  "probeDebug": {
+    "title": "Probe Service Debug",
+    "includeToken": "Include authentication token in request",
+    "callProbeService": "Call Probe Service",
+    "endpoint": "Endpoint",
+    "probeResponseAnalysis": "Probe Response Analysis",
+    "status": "Status",
+    "authSuccessful": "Authentication successful",
+    "authRequired": "Authentication required",
+    "accessibleResource": "Accessible Resource",
+    "availableAuthServices": "Available Authentication Services",
+    "type": "Type",
+    "profile": "Profile",
+    "label": "Label",
+    "tokenService": "Token Service",
+    "rawJsonResponse": "Raw JSON Response",
+    "clickToTest": "Click \"Call Probe Service\" to test the authentication probe endpoint"
+  },
+  "tokenDebug": {
+    "title": "Token Service Debug",
+    "testConfiguration": "Test Configuration",
+    "messageId": "Message ID",
+    "generateNewId": "Generate New ID",
+    "origin": "Origin",
+    "generatedUrl": "Generated Token Service URL",
+    "generateUrl": "Generate URL",
+    "clickGenerate": "Click \"Generate URL\" to create the URL",
+    "openTokenService": "Open Token Service (Popup)",
+    "waitingForResponse": "Waiting for response...",
+    "directFetch": "Direct Fetch (No Popup)",
+    "waitingPostMessage": "Waiting for postMessage response from Token Service...",
+    "receivedMessage": "Received Message",
+    "successMessage": "Successfully received token via postMessage",
+    "accessToken": "Access Token",
+    "expiresIn": "Expires In",
+    "seconds": "{seconds} seconds",
+    "rawMessageData": "Raw Message Data",
+    "howItWorks": "How Token Service Works",
+    "step1": "Client opens Token Service URL in a popup window",
+    "step2": "Token Service checks if there's a valid token:",
+    "step2a": "If yes: Returns HTML with postMessage script",
+    "step2b": "If no: Redirects to login page",
+    "step3": "After successful login, Token Service sends token via postMessage",
+    "step4": "Parent window receives the message and closes the popup",
+    "redirected": "Redirected to login page (no valid token). In a real scenario, this would open the login form.",
+    "parseError": "Could not parse postMessage data from response. This might happen if the token format is unexpected.",
+    "noPostMessage": "No postMessage found in response. The response might be in an unexpected format.",
+    "popupBlocked": "Popup blocked. Please allow popups for this site.",
+    "timeout": "Timeout waiting for response from Token Service"
+  },
+  "footer": {
+    "title": "IIIF Authentication API 2.0 Demo",
+    "description": "This is a demonstration of the IIIF Authentication API 2.0 specification.",
+    "authSpec": "IIIF Auth Spec",
+    "iiifWebsite": "IIIF.io",
+    "sampleManifest": "Sample Manifest",
+    "builtWith": "Built with Next.js 14",
+    "demoCredentials": "Demo credentials: user / pass"
+  }
+}

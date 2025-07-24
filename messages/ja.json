@@ -1,0 +1,179 @@
+{
+  "common": {
+    "home": "ホーム",
+    "login": "ログイン",
+    "logout": "ログアウト",
+    "loading": "読み込み中...",
+    "error": "エラー",
+    "success": "成功",
+    "notAuthenticated": "未認証",
+    "authenticated": "認証済み",
+    "authenticationRequired": "認証が必要です",
+    "clearAuthentication": "認証をクリア",
+    "token": "トークン"
+  },
+  "navigation": {
+    "simpleViewer": "シンプルビューア",
+    "openSeadragon": "OpenSeadragon",
+    "leafletIIIF": "Leaflet IIIF",
+    "mirador": "Mirador",
+    "jwtDebug": "JWT デバッグ",
+    "infoJsonDebug": "info.json デバッグ",
+    "probeDebug": "Probe デバッグ",
+    "tokenDebug": "Token デバッグ"
+  },
+  "home": {
+    "title": "IIIF認証API 2.0 デモ",
+    "description": "このデモはIIIF認証API 2.0仕様を実装しています",
+    "features": {
+      "title": "機能",
+      "auth": "完全なIIIF認証API 2.0の実装",
+      "viewers": "複数のIIIFビューアとの統合",
+      "jwt": "JWTベースのトークン認証",
+      "persistence": "タブ間での認証の永続化"
+    },
+    "gettingStarted": {
+      "title": "はじめに",
+      "step1": "下の「認証」ボタンまたはヘッダーのログインボタンをクリック",
+      "step2": "デモ用認証情報を使用: user/pass",
+      "step3": "任意のビューアページで保護されたIIIFコンテンツを表示"
+    },
+    "authenticate": "認証",
+    "authenticateDescription": "クリックしてIIIF認証フローを開始",
+    "authWindow": "認証ウィンドウが開きます。認証情報: user/pass"
+  },
+  "auth": {
+    "title": "IIIF認証デモ",
+    "username": "ユーザー名",
+    "password": "パスワード",
+    "logIn": "ログイン",
+    "invalidCredentials": "認証情報が無効です",
+    "authenticationFailed": "認証に失敗しました",
+    "demoCredentials": "デモ用認証情報: user/pass"
+  },
+  "authStatus": {
+    "status": "認証ステータス",
+    "authenticated": "認証済み",
+    "notAuthenticated": "未認証",
+    "tokenPrefix": "トークン"
+  },
+  "viewers": {
+    "loadProtectedImage": "保護された画像を読み込む",
+    "authRequired": "認証が必要です。ログインウィンドウが開いているはずです。",
+    "useCredentials": "認証情報を使用: user/pass",
+    "protectedImage": "保護された画像",
+    "imageLoadedSimple": "画像が正常に読み込まれました（シンプルモード）",
+    "imageLoaded": "画像が正常に読み込まれました",
+    "errorLoadingImage": "画像の読み込みエラー",
+    "failedToLoadImage": "画像の読み込みに失敗しました"
+  },
+  "simpleViewer": {
+    "title": "シンプルIIIF画像ビューア"
+  },
+  "openSeadragonViewer": {
+    "title": "OpenSeadragon IIIFビューア",
+    "readyToLoad": "画像を読み込む準備ができました",
+    "authRequiredMessage": "ログインウィンドウが自動的に開きます"
+  },
+  "leafletViewer": {
+    "title": "Leaflet IIIFビューア"
+  },
+  "miradorViewer": {
+    "title": "Mirador IIIFビューア",
+    "notAuthMessage": "未認証 - 画像が読み込まれない可能性があります",
+    "reloading": "認証完了！ビューアを再読み込みしています...",
+    "cleared": "認証をクリアしました。再読み込み中..."
+  },
+  "jwtDebug": {
+    "title": "JWTデバッグツール",
+    "components": "JWTコンポーネント",
+    "rawToken": "生のトークン",
+    "header": "ヘッダー",
+    "payload": "ペイロード",
+    "signature": "署名",
+    "signatureNote": "注: 署名の検証にはサーバーの秘密鍵が必要です",
+    "tokenValid": "トークンは有効です",
+    "tokenExpired": "トークンは期限切れです",
+    "expiresIn": "残り{minutes}分で期限切れ",
+    "noToken": "認証トークンが見つかりません。先に認証してください。",
+    "viewOnJwtIo": "jwt.ioで表示",
+    "externalTool": "外部デバッグツール",
+    "jwtIoNote": "注意: jwt.ioでは、サーバーの秘密鍵にアクセスできないため「署名検証に失敗しました」と表示されます。これは正常で予期された動作です。"
+  },
+  "infoJsonDebug": {
+    "title": "IIIF Image API info.json デバッグ",
+    "imageId": "画像ID",
+    "enterImageId": "画像IDを入力",
+    "loadInfoJson": "info.jsonを読み込む",
+    "endpoint": "エンドポイント",
+    "response": "レスポンス",
+    "formattedView": "フォーマット表示",
+    "rawJson": "生のJSON",
+    "syntaxHighlighted": "構文ハイライト",
+    "context": "コンテキスト",
+    "dimensions": "寸法",
+    "pixels": "{width} × {height} ピクセル",
+    "services": "サービス",
+    "service": "サービス",
+    "enterImageIdMessage": "画像IDを入力して「info.jsonを読み込む」をクリックすると、IIIF画像情報レスポンスが表示されます"
+  },
+  "probeDebug": {
+    "title": "Probe サービスデバッグ",
+    "includeToken": "リクエストに認証トークンを含める",
+    "callProbeService": "Probeサービスを呼び出す",
+    "endpoint": "エンドポイント",
+    "probeResponseAnalysis": "Probeレスポンス分析",
+    "status": "ステータス",
+    "authSuccessful": "認証成功",
+    "authRequired": "認証が必要",
+    "accessibleResource": "アクセス可能なリソース",
+    "availableAuthServices": "利用可能な認証サービス",
+    "type": "タイプ",
+    "profile": "プロファイル",
+    "label": "ラベル",
+    "tokenService": "トークンサービス",
+    "rawJsonResponse": "生のJSONレスポンス",
+    "clickToTest": "「Probeサービスを呼び出す」をクリックして認証プローブエンドポイントをテスト"
+  },
+  "tokenDebug": {
+    "title": "Token サービスデバッグ",
+    "testConfiguration": "テスト設定",
+    "messageId": "メッセージID",
+    "generateNewId": "新しいIDを生成",
+    "origin": "オリジン",
+    "generatedUrl": "生成されたトークンサービスURL",
+    "generateUrl": "URLを生成",
+    "clickGenerate": "「URLを生成」をクリックしてURLを作成",
+    "openTokenService": "トークンサービスを開く（ポップアップ）",
+    "waitingForResponse": "レスポンスを待っています...",
+    "directFetch": "直接フェッチ（ポップアップなし）",
+    "waitingPostMessage": "トークンサービスからのpostMessageレスポンスを待っています...",
+    "receivedMessage": "受信メッセージ",
+    "successMessage": "postMessage経由でトークンを正常に受信しました",
+    "accessToken": "アクセストークン",
+    "expiresIn": "有効期限",
+    "seconds": "{seconds}秒",
+    "rawMessageData": "生のメッセージデータ",
+    "howItWorks": "トークンサービスの仕組み",
+    "step1": "クライアントがポップアップウィンドウでトークンサービスURLを開く",
+    "step2": "トークンサービスが有効なトークンがあるかチェック:",
+    "step2a": "ある場合: postMessageスクリプトを含むHTMLを返す",
+    "step2b": "ない場合: ログインページにリダイレクト",
+    "step3": "ログイン成功後、トークンサービスがpostMessage経由でトークンを送信",
+    "step4": "親ウィンドウがメッセージを受信してポップアップを閉じる",
+    "redirected": "ログインページにリダイレクトされました（有効なトークンなし）。実際のシナリオでは、ログインフォームが開きます。",
+    "parseError": "レスポンスからpostMessageデータを解析できませんでした。トークンの形式が予期しないものである可能性があります。",
+    "noPostMessage": "レスポンスにpostMessageが見つかりません。レスポンスが予期しない形式である可能性があります。",
+    "popupBlocked": "ポップアップがブロックされました。このサイトのポップアップを許可してください。",
+    "timeout": "トークンサービスからのレスポンスがタイムアウトしました"
+  },
+  "footer": {
+    "title": "IIIF認証API 2.0 デモ",
+    "description": "これはIIIF認証API 2.0仕様のデモンストレーションです。",
+    "authSpec": "IIIF認証仕様",
+    "iiifWebsite": "IIIF.io",
+    "sampleManifest": "サンプルマニフェスト",
+    "builtWith": "Next.js 14で構築",
+    "demoCredentials": "デモ用認証情報: user / pass"
+  }
+}

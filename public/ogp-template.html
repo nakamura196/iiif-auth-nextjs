@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            margin: 0;
+            width: 1200px;
+            height: 630px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .container {
+            text-align: center;
+            padding: 60px;
+        }
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .lock {
+            width: 60px;
+            height: 60px;
+            fill: white;
+        }
+        h1 {
+            font-size: 72px;
+            font-weight: 700;
+            margin: 0 0 20px;
+            line-height: 1.1;
+        }
+        .subtitle {
+            font-size: 32px;
+            font-weight: 400;
+            opacity: 0.9;
+            margin: 0 0 40px;
+        }
+        .features {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            font-size: 20px;
+            opacity: 0.8;
+        }
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .check {
+            width: 24px;
+            height: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <svg class="lock" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 11H5a2 2 0 00-2 2v7a2 2 0 002 2h14a2 2 0 002-2v-7a2 2 0 00-2-2z" fill="currentColor"/>
+                <path d="M7 11V7a5 5 0 0110 0v4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                <circle cx="12" cy="16" r="1" fill="#3b82f6"/>
+            </svg>
+        </div>
+        <h1>IIIF Authentication API 2.0</h1>
+        <p class="subtitle">Secure Image Delivery Demo</p>
+        <div class="features">
+            <div class="feature">
+                <svg class="check" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="none"/>
+                </svg>
+                <span>Multiple Viewers</span>
+            </div>
+            <div class="feature">
+                <svg class="check" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="none"/>
+                </svg>
+                <span>JWT Authentication</span>
+            </div>
+            <div class="feature">
+                <svg class="check" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="none"/>
+                </svg>
+                <span>Debug Tools</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

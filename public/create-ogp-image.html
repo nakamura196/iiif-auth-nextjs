@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Create OGP Image</title>
+    <style>
+        body { margin: 0; padding: 20px; font-family: Arial, sans-serif; }
+        #canvas { border: 1px solid #ccc; display: block; margin: 20px 0; }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+        .info { margin: 20px 0; padding: 15px; background: #f0f0f0; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>OGP Image Generator</h1>
+    <div class="info">
+        <p>Click the button below to generate and download the OGP image for the IIIF Authentication Demo.</p>
+        <p>The image will be 1200x630 pixels (Facebook/Twitter recommended size).</p>
+    </div>
+    <canvas id="canvas" width="1200" height="630"></canvas>
+    <button onclick="generateAndDownload()">Generate and Download OGP Image</button>
+
+    <script>
+        function generateAndDownload() {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Create gradient background
+            const gradient = ctx.createLinearGradient(0, 0, 1200, 630);
+            gradient.addColorStop(0, '#1e40af');
+            gradient.addColorStop(1, '#3b82f6');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 1200, 630);
+            
+            // Draw lock icon
+            ctx.save();
+            ctx.translate(600, 180);
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = 8;
+            ctx.lineCap = 'round';
+            
+            // Lock shackle
+            ctx.beginPath();
+            ctx.arc(0, -20, 40, Math.PI, 0, false);
+            ctx.stroke();
+            
+            // Lock body
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.fillRect(-60, -20, 120, 80);
+            
+            // Keyhole
+            ctx.fillStyle = '#3b82f6';
+            ctx.beginPath();
+            ctx.arc(0, 20, 12, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.moveTo(-8, 30);
+            ctx.lineTo(0, 50);
+            ctx.lineTo(8, 30);
+            ctx.closePath();
+            ctx.fill();
+            
+            ctx.restore();
+            
+            // Main title
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 72px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('IIIF Authentication API 2.0', 600, 340);
+            
+            // Subtitle
+            ctx.font = '36px Arial';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.fillText('Secure Image Delivery Demo', 600, 400);
+            
+            // Features
+            ctx.font = '24px Arial';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            
+            const features = ['Multiple Viewers', 'JWT Authentication', 'Debug Tools'];
+            const featureY = 480;
+            const featureSpacing = 250;
+            const startX = 600 - (features.length - 1) * featureSpacing / 2;
+            
+            features.forEach((feature, index) => {
+                const x = startX + index * featureSpacing;
+                
+                // Draw checkmark
+                ctx.beginPath();
+                ctx.arc(x - 100, featureY, 15, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+                ctx.fill();
+                
+                ctx.strokeStyle = 'white';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(x - 108, featureY);
+                ctx.lineTo(x - 100, featureY + 8);
+                ctx.lineTo(x - 92, featureY - 8);
+                ctx.stroke();
+                
+                // Draw text
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                ctx.fillText(feature, x, featureY + 6);
+            });
+            
+            // Download the image
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'ogp-image.png';
+                a.click();
+                URL.revokeObjectURL(url);
+            }, 'image/png');
+        }
+        
+        // Generate preview on load
+        window.onload = function() {
+            generateAndDownload();
+        };
+    </script>
+</body>
+</html>
