@@ -16,7 +16,6 @@
     "simpleViewer": "シンプルビューア",
     "openSeadragon": "OpenSeadragon",
     "leafletIIIF": "Leaflet IIIF",
-    "mirador": "Mirador",
     "jwtDebug": "JWT デバッグ",
     "infoJsonDebug": "info.json デバッグ",
     "probeDebug": "Probe デバッグ",
@@ -77,12 +76,6 @@
   },
   "leafletViewer": {
     "title": "Leaflet IIIFビューア"
-  },
-  "miradorViewer": {
-    "title": "Mirador IIIFビューア",
-    "notAuthMessage": "未認証 - 画像が読み込まれない可能性があります",
-    "reloading": "認証完了！ビューアを再読み込みしています...",
-    "cleared": "認証をクリアしました。再読み込み中..."
   },
   "jwtDebug": {
     "title": "JWTデバッグツール",

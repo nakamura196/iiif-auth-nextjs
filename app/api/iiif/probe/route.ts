@@ -16,7 +16,12 @@ export async function OPTIONS(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get('authorization');
-  const token = authHeader?.replace('Bearer ', '');
+  let token = authHeader?.replace('Bearer ', '');
+  
+  // Also check for token in query params
+  if (!token) {
+    token = request.nextUrl.searchParams.get('token') || '';
+  }
   
   const resourceId = request.nextUrl.searchParams.get('resource') || 'https://example.org/image/1';
   
@@ -27,7 +32,8 @@ export async function GET(request: NextRequest) {
     status: 401,
   };
   
-  if (token) {
+  // Check authentication - ensure token is valid string and not null/empty
+  if (token && token !== 'null' && token !== 'undefined' && token.trim() !== '') {
     const payload = await verifyToken(token);
     if (payload) {
       return NextResponse.json({
@@ -55,14 +61,46 @@ export async function GET(request: NextRequest) {
       en: ["Please log in to access this resource"]
     },
     service: [{
+      "@context": IIIF_CONTEXTS.AUTH_2,
+      "@id": `${request.nextUrl.origin}/api/iiif/access`,
       id: `${request.nextUrl.origin}/api/iiif/access`,
       type: IIIF_AUTH_TYPES.ACCESS_SERVICE,
-      profile: "active",
-      label: "Login to Example Institution",
-      service: [{
-        id: `${request.nextUrl.origin}/api/iiif/token`,
-        type: IIIF_AUTH_TYPES.ACCESS_TOKEN_SERVICE
-      }]
+      profile: "http://iiif.io/api/auth/2/interactive",
+      label: {
+        en: ["Login to IIIF Auth Demo"]
+      },
+      heading: {
+        en: ["Please Log In"]
+      },
+      note: {
+        en: ["Use demo credentials: user/pass"]
+      },
+      confirmLabel: {
+        en: ["Login"]
+      },
+      failureHeader: {
+        en: ["Authentication Failed"]
+      },
+      failureDescription: {
+        en: ["The credentials you provided were incorrect"]
+      },
+      service: [
+        {
+          "@id": `${request.nextUrl.origin}/api/iiif/token`,
+          id: `${request.nextUrl.origin}/api/iiif/token`,
+          type: IIIF_AUTH_TYPES.ACCESS_TOKEN_SERVICE,
+          profile: "http://iiif.io/api/auth/2/token"
+        },
+        {
+          "@id": `${request.nextUrl.origin}/api/iiif/logout`,
+          id: `${request.nextUrl.origin}/api/iiif/logout`,
+          type: IIIF_AUTH_TYPES.LOGOUT_SERVICE,
+          profile: "http://iiif.io/api/auth/2/logout",
+          label: {
+            en: ["Logout"]
+          }
+        }
+      ]
     }]
   }, { 
     status: 401,

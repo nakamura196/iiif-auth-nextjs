@@ -12,6 +12,16 @@ export default function AuthPage() {
   const origin = searchParams.get('origin');
   const messageId = searchParams.get('messageId');
   
+  // Debug information
+  useEffect(() => {
+    console.log('Auth page loaded with:', {
+      origin,
+      messageId,
+      opener: !!window.opener,
+      referrer: document.referrer
+    });
+  }, [origin, messageId]);
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -34,15 +44,54 @@ export default function AuthPage() {
         // Dispatch custom event for same-tab updates
         window.dispatchEvent(new Event('auth-changed'));
         
-        if (origin && messageId) {
+        if (window.opener && origin) {
           // IIIF popup flow
-          window.opener?.postMessage({
+          console.log('Sending postMessage to opener:', {
             messageId,
             accessToken: data.accessToken,
-            expiresIn: data.expiresIn,
-          }, origin);
+            origin
+          });
           
-          window.close();
+          // Try to send message to opener
+          try {
+            window.opener.postMessage({
+              messageId: messageId || data.messageId,
+              accessToken: data.accessToken,
+              expiresIn: data.expiresIn,
+              '@context': 'http://iiif.io/api/auth/2/context.json',
+              type: 'AuthAccessToken2'
+            }, origin);
+            
+            // Give time for message to be received
+            setTimeout(() => {
+              window.close();
+            }, 100);
+          } catch (err) {
+            console.error('Failed to send postMessage:', err);
+            setError('Failed to communicate with parent window');
+          }
+        } else if (window.opener) {
+          // If we have opener but no origin, try using referrer
+          const fallbackOrigin = document.referrer ? new URL(document.referrer).origin : window.location.origin;
+          console.log('Using fallback origin:', fallbackOrigin);
+          
+          try {
+            window.opener.postMessage({
+              messageId: messageId || data.messageId,
+              accessToken: data.accessToken,
+              expiresIn: data.expiresIn,
+              '@context': 'http://iiif.io/api/auth/2/context.json',
+              type: 'AuthAccessToken2'
+            }, fallbackOrigin);
+            
+            setTimeout(() => {
+              window.close();
+            }, 100);
+          } catch (err) {
+            console.error('Failed to send postMessage with fallback:', err);
+            // Fallback to redirect
+            window.location.href = '/';
+          }
         } else {
           // Direct login flow - redirect to home
           window.location.href = '/';

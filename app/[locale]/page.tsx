@@ -32,6 +32,11 @@ export default function HomePage() {
       });
       const data = await response.json();
       setProbeResult(data);
+      
+      // If authentication is required and we don't have a token, open auth window
+      if (data.status === 401 && data.service && !token) {
+        handleAuth(data);
+      }
     } catch (error) {
       console.error('Probe failed:', error);
     } finally {
@@ -39,10 +44,11 @@ export default function HomePage() {
     }
   };
 
-  const handleAuth = async () => {
-    if (!probeResult?.service?.[0]) return;
+  const handleAuth = async (authData?: any) => {
+    const serviceData = authData || probeResult;
+    if (!serviceData?.service?.[0]) return;
     
-    const authService = probeResult.service[0];
+    const authService = serviceData.service[0];
     const tokenService = authService.service[0];
     
     const messageId = crypto.randomUUID();
@@ -52,7 +58,7 @@ export default function HomePage() {
     
     const authWindow = window.open(tokenUrl.toString(), 'iiif-auth', 'width=600,height=600');
     
-    window.addEventListener('message', (event) => {
+    const handleMessage = (event: MessageEvent) => {
       if (event.data.messageId === messageId) {
         setAccessToken(event.data.accessToken);
         
@@ -63,11 +69,14 @@ export default function HomePage() {
         window.dispatchEvent(new Event('auth-changed'));
         
         authWindow?.close();
+        window.removeEventListener('message', handleMessage);
         
         // Immediately probe again with the new token
         setTimeout(() => probeResource(), 100);
       }
-    });
+    };
+    
+    window.addEventListener('message', handleMessage);
   };
 
   return (

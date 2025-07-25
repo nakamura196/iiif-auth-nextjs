@@ -12,12 +12,12 @@ export async function GET(
     "id": `${baseUrl}/api/iiif/manifest/${params.id}`,
     "type": IIIF_PRESENTATION_TYPES.MANIFEST,
     "label": {
-      "en": ["Protected Sample Manifest"]
+      "en": ["Sample Manifest"]
     },
     "metadata": [
       {
         "label": { "en": ["Description"] },
-        "value": { "en": ["This is a sample manifest with authentication"] }
+        "value": { "en": ["This is a sample IIIF manifest"] }
       }
     ],
     "items": [
@@ -44,16 +44,11 @@ export async function GET(
                   "format": "image/jpeg",
                   "service": [
                     {
+                      "@context": IIIF_CONTEXTS.IMAGE_3,
+                      "@id": `${baseUrl}/api/iiif/image/${params.id}`,
                       "id": `${baseUrl}/api/iiif/image/${params.id}`,
                       "type": IIIF_IMAGE_TYPES.IMAGE_SERVICE,
-                      "profile": IIIF_PROFILES.IMAGE_LEVEL2,
-                      "service": [
-                        {
-                          "@context": IIIF_CONTEXTS.AUTH_2,
-                          "id": `${baseUrl}/api/iiif/probe`,
-                          "type": IIIF_AUTH_TYPES.PROBE_SERVICE
-                        }
-                      ]
+                      "profile": IIIF_PROFILES.IMAGE_LEVEL2
                     }
                   ],
                   "height": 1000,

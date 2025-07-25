@@ -6,6 +6,7 @@ export const IIIF_AUTH_TYPES = {
   PROBE_SERVICE: 'AuthProbeService2',
   ACCESS_SERVICE: 'AuthAccessService2',
   ACCESS_TOKEN_SERVICE: 'AuthAccessTokenService2',
+  LOGOUT_SERVICE: 'AuthLogoutService2',
 } as const;
 
 export const IIIF_IMAGE_TYPES = {

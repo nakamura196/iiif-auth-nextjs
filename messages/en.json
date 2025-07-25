@@ -16,7 +16,6 @@
     "simpleViewer": "Simple Viewer",
     "openSeadragon": "OpenSeadragon",
     "leafletIIIF": "Leaflet IIIF",
-    "mirador": "Mirador",
     "jwtDebug": "JWT Debug",
     "infoJsonDebug": "info.json Debug",
     "probeDebug": "Probe Debug",
@@ -77,12 +76,6 @@
   },
   "leafletViewer": {
     "title": "Leaflet IIIF Viewer"
-  },
-  "miradorViewer": {
-    "title": "Mirador IIIF Viewer",
-    "notAuthMessage": "Not authenticated - images may not load",
-    "reloading": "Authenticated! Reloading viewer...",
-    "cleared": "Authentication cleared. Reloading..."
   },
   "jwtDebug": {
     "title": "JWT Debug Tool",

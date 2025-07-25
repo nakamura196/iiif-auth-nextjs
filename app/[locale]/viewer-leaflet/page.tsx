@@ -75,6 +75,14 @@ export default function LeafletIIIFViewerPage() {
       if (response.ok) {
         const imageInfo = await response.json();
         
+        // Check if authentication is required (service array contains auth service)
+        if (imageInfo.service && imageInfo.service.length > 0) {
+          // Authentication required - handle auth
+          setAuthStatus(t('common.authenticationRequired'));
+          handleAuth(imageInfo.service[0]);
+          return;
+        }
+        
         // Clean up existing map if it exists
         if (map) {
           map.remove();
@@ -97,7 +105,7 @@ export default function LeafletIIIFViewerPage() {
 
         // For authenticated IIIF with Leaflet, we'll use a simpler approach
         // Use a single full-size image instead of tiles to avoid complex tile URL issues
-        if (token) {
+        if (token && token !== 'null' && token !== 'undefined' && token.trim() !== '') {
           // Use simple image overlay for authenticated images
           const imageBounds = window.L.latLngBounds(
             [-(imageInfo.height / 2), -(imageInfo.width / 2)],

@@ -16,8 +16,10 @@ export async function GET(
     token = request.nextUrl.searchParams.get('token') || '';
   }
   
-  // Check authentication
-  const isValid = token ? await verifyToken(token) : null;
+  // Check authentication - ensure token is valid string and not null/empty
+  const isValid = (token && token !== 'null' && token !== 'undefined' && token.trim() !== '') 
+    ? await verifyToken(token) 
+    : null;
   if (!isValid) {
     return NextResponse.json({
       error: 'Authentication required',

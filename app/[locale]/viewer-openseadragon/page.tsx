@@ -44,10 +44,20 @@ export default function OpenSeadragonViewerPage() {
       if (response.ok) {
         const imageInfo = await response.json();
         
+        // Check if authentication is required (service array contains auth service)
+        if (imageInfo.service && imageInfo.service.length > 0) {
+          // Authentication required - handle auth
+          setAuthStatus(t('common.authenticationRequired'));
+          handleAuth(imageInfo.service[0]);
+          return;
+        }
+        
         if (!viewer) {
           // For authenticated IIIF in OpenSeadragon, we'll use a simple image
           // OpenSeadragon has issues with IIIF authentication in tile requests
-          const simpleImageUrl = `${imageServiceUrl}/full/max/0/default.jpg?token=${token}`;
+          const simpleImageUrl = (token && token !== 'null' && token !== 'undefined' && token.trim() !== '') 
+            ? `${imageServiceUrl}/full/max/0/default.jpg?token=${token}`
+            : `${imageServiceUrl}/full/max/0/default.jpg`;
           
           const newViewer = window.OpenSeadragon({
             id: 'openseadragon-viewer',
