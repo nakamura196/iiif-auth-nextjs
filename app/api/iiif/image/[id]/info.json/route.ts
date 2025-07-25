@@ -31,36 +31,47 @@ export async function GET(
     "height": 1000
   };
   
-  // Add auth service if not authenticated
+  // Return 401 with auth service if not authenticated
   if (!isValid) {
-    info.service = [{
-      "@context": IIIF_CONTEXTS.AUTH_2,
-      "@id": `${request.nextUrl.origin}/api/iiif/access`,
-      "id": `${request.nextUrl.origin}/api/iiif/access`,
-      "type": IIIF_AUTH_TYPES.ACCESS_SERVICE,
-      "profile": "http://iiif.io/api/auth/2/interactive",
-      "label": "Login to IIIF Auth Demo",
-      "header": "Please Log In",
-      "description": "Use demo credentials: user/pass",
-      "confirmLabel": "Login",
-      "failureHeader": "Authentication Failed",
-      "failureDescription": "The credentials you provided were incorrect",
-      "service": [
-        {
-          "@id": `${request.nextUrl.origin}/api/iiif/token`,
-          "id": `${request.nextUrl.origin}/api/iiif/token`,
-          "type": IIIF_AUTH_TYPES.ACCESS_TOKEN_SERVICE,
-          "profile": "http://iiif.io/api/auth/2/token"
-        },
-        {
-          "@id": `${request.nextUrl.origin}/api/iiif/logout`,
-          "id": `${request.nextUrl.origin}/api/iiif/logout`,
-          "type": IIIF_AUTH_TYPES.LOGOUT_SERVICE,
-          "profile": "http://iiif.io/api/auth/2/logout",
-          "label": "Logout"
-        }
-      ]
-    }];
+    const authInfo = {
+      ...info,
+      service: [{
+        "@context": IIIF_CONTEXTS.AUTH_2,
+        "@id": `${request.nextUrl.origin}/api/iiif/access`,
+        "id": `${request.nextUrl.origin}/api/iiif/access`,
+        "type": IIIF_AUTH_TYPES.ACCESS_SERVICE,
+        "profile": "http://iiif.io/api/auth/2/interactive",
+        "label": "Login to IIIF Auth Demo",
+        "header": "Please Log In",
+        "description": "Use demo credentials: user/pass",
+        "confirmLabel": "Login",
+        "failureHeader": "Authentication Failed",
+        "failureDescription": "The credentials you provided were incorrect",
+        "service": [
+          {
+            "@id": `${request.nextUrl.origin}/api/iiif/token`,
+            "id": `${request.nextUrl.origin}/api/iiif/token`,
+            "type": IIIF_AUTH_TYPES.ACCESS_TOKEN_SERVICE,
+            "profile": "http://iiif.io/api/auth/2/token"
+          },
+          {
+            "@id": `${request.nextUrl.origin}/api/iiif/logout`,
+            "id": `${request.nextUrl.origin}/api/iiif/logout`,
+            "type": IIIF_AUTH_TYPES.LOGOUT_SERVICE,
+            "profile": "http://iiif.io/api/auth/2/logout",
+            "label": "Logout"
+          }
+        ]
+      }]
+    };
+    
+    return NextResponse.json(authInfo, {
+      status: 401,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Authorization, Content-Type',
+      }
+    });
   }
   
   return NextResponse.json(info, {
