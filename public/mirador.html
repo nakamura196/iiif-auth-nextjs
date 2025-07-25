@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mirador IIIF Viewer - IIIF Auth Demo</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background-color: #f5f5f5;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    
+    /* Header styles matching ResponsiveHeader */
+    header {
+      background-color: #1a1a1a;
+      color: white;
+      padding: 0.75rem 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .header-title {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: white;
+      text-decoration: none;
+    }
+    
+    nav {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+    
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: color 0.2s;
+    }
+    
+    nav a:hover {
+      color: #4CAF50;
+    }
+    
+    nav a.active {
+      color: #4CAF50;
+    }
+    
+    .nav-divider {
+      border-left: 1px solid #444;
+      padding-left: 1rem;
+      margin-left: 0.5rem;
+      display: flex;
+      gap: 0.75rem;
+    }
+    
+    .nav-divider a {
+      color: #999;
+      font-size: 0.75rem;
+    }
+    
+    .lang-switcher {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      margin-right: 1rem;
+    }
+    
+    .lang-btn {
+      padding: 0.25rem 0.5rem;
+      background-color: transparent;
+      color: #999;
+      border: 1px solid #444;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+    }
+    
+    .lang-btn.active {
+      background-color: #4CAF50;
+      color: white;
+    }
+    
+    .auth-section {
+      padding-left: 1rem;
+      border-left: 1px solid #444;
+    }
+    
+    .login-btn {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      transition: background-color 0.2s;
+    }
+    
+    .logout-btn {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    
+    /* Main content */
+    main {
+      flex: 1;
+      padding: 1rem;
+    }
+    
+    .viewer-container {
+      background-color: white;
+      border-radius: 8px;
+      padding: 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      max-width: 1200px;
+      margin: 0 auto;
+      height: calc(100vh - 200px);
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .viewer-header {
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #eee;
+      margin-bottom: 1rem;
+    }
+    
+    .viewer-title {
+      margin: 0 0 1rem 0;
+      font-size: 1.5rem;
+    }
+    
+    .auth-status {
+      padding: 0.5rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .auth-status.authenticated {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    
+    .auth-status.not-authenticated {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    
+    #mirador {
+      flex: 1;
+      position: relative;
+    }
+    
+    /* Mobile menu */
+    .mobile-menu-btn {
+      display: none;
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.25rem;
+    }
+    
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+      }
+    }
+    
+    #loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="header-content">
+      <a href="/" class="header-title" id="home-link">IIIF Auth Demo</a>
+      
+      <nav>
+        <a href="/viewer-simple" id="simple-viewer-link">Simple Viewer</a>
+        <a href="/viewer-openseadragon" id="openseadragon-link">OpenSeadragon</a>
+        <a href="/viewer-leaflet" id="leaflet-link">Leaflet IIIF</a>
+        <a href="/mirador.html" class="active" id="mirador-link">Mirador</a>
+        
+        <div class="nav-divider">
+          <a href="/jwt-debug" id="jwt-debug-link">JWT Debug</a>
+          <a href="/info-json-debug" id="info-json-debug-link">info.json Debug</a>
+          <a href="/probe-debug" id="probe-debug-link">Probe Debug</a>
+          <a href="/token-debug" id="token-debug-link">Token Debug</a>
+        </div>
+        
+        <div class="lang-switcher">
+          <button class="lang-btn" id="en-btn" onclick="switchLanguage('en')">EN</button>
+          <button class="lang-btn" id="ja-btn" onclick="switchLanguage('ja')">日本語</button>
+        </div>
+        
+        <div class="auth-section">
+          <button id="header-login-btn" class="login-btn" onclick="authenticate()">Login</button>
+          <button id="header-logout-btn" class="logout-btn" onclick="clearAuth()" style="display: none;">Logout</button>
+        </div>
+      </nav>
+      
+      <button class="mobile-menu-btn">☰</button>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main>
+    <div class="viewer-container">
+      <div class="viewer-header">
+        <h1 class="viewer-title" id="viewer-title">Mirador IIIF Viewer</h1>
+        
+        <div id="auth-status" class="auth-status not-authenticated">
+          <span id="status-text">Not Authenticated</span>
+        </div>
+        
+        <button id="clear-auth-btn" class="logout-btn" onclick="clearAuth()" style="display: none;">Clear Authentication</button>
+        
+        <div id="manifest-info" style="margin-top: 0.5rem; padding: 0.5rem; background-color: #f0f0f0; border-radius: 4px; font-size: 0.875rem; color: #666;">
+          <strong>Manifest URL:</strong> <span id="manifest-url"></span>
+        </div>
+        
+        <div id="auth-warning" style="margin-top: 0.5rem; padding: 0.75rem; background-color: #fff3cd; border: 1px solid #ffeaa7; border-radius: 4px; font-size: 0.875rem; color: #856404;">
+          <strong>⚠️</strong> <span id="auth-warning-text"></span>
+        </div>
+      </div>
+      
+      <div id="loading">Loading Mirador...</div>
+      <div id="mirador"></div>
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/mirador@3.3.0/dist/mirador.min.js"></script>
+  <script>
+    let miradorInstance = null;
+    let currentToken = null;
+    let currentLocale = 'en';
+
+    // Translations
+    const translations = {
+      en: {
+        title: 'Mirador IIIF Viewer',
+        authenticated: 'Authenticated',
+        notAuthenticated: 'Not Authenticated',
+        login: 'Login',
+        logout: 'Logout',
+        clearAuth: 'Clear Authentication',
+        simpleViewer: 'Simple Viewer',
+        openSeadragon: 'OpenSeadragon',
+        leafletIIIF: 'Leaflet IIIF',
+        mirador: 'Mirador',
+        jwtDebug: 'JWT Debug',
+        infoJsonDebug: 'info.json Debug',
+        probeDebug: 'Probe Debug',
+        tokenDebug: 'Token Debug',
+        authWarning: 'Note: Mirador has limited support for IIIF Authentication API 2.0. Authentication may not work as expected.'
+      },
+      ja: {
+        title: 'Mirador IIIFビューア',
+        authenticated: '認証済み',
+        notAuthenticated: '未認証',
+        login: 'ログイン',
+        logout: 'ログアウト',
+        clearAuth: '認証をクリア',
+        simpleViewer: 'シンプルビューア',
+        openSeadragon: 'OpenSeadragon',
+        leafletIIIF: 'Leaflet IIIF',
+        mirador: 'Mirador',
+        jwtDebug: 'JWT デバッグ',
+        infoJsonDebug: 'info.json デバッグ',
+        probeDebug: 'Probe デバッグ',
+        tokenDebug: 'Token デバッグ',
+        authWarning: '注意: MiradorはIIIF認証API 2.0の対応が限定的です。認証が正しく動作しない場合があります。'
+      }
+    };
+
+    // Get manifest ID from URL parameters
+    function getManifestId() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('manifest') || 'sample';
+    }
+
+    // Get manifest URL from parameters
+    function getManifestUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const iifContent = params.get('iiif-content');
+      
+      // If iiif-content parameter is provided, use it directly
+      if (iifContent) {
+        // If it's a full URL, use as-is
+        if (iifContent.startsWith('http://') || iifContent.startsWith('https://')) {
+          return iifContent;
+        }
+        // If it's a relative path, prepend origin
+        return `${window.location.origin}${iifContent.startsWith('/') ? '' : '/'}${iifContent}`;
+      }
+      
+      // Otherwise use the manifest ID to construct URL
+      const manifestId = getManifestId();
+      return `${window.location.origin}/api/iiif/manifest/${manifestId}`;
+    }
+
+    // Get locale from URL or default to 'en'
+    function getLocale() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('locale') || 'en';
+    }
+
+    // Switch language
+    function switchLanguage(locale) {
+      currentLocale = locale;
+      updateUI();
+      
+      // Update URL preserving other parameters
+      const url = new URL(window.location);
+      url.searchParams.set('locale', locale);
+      window.history.replaceState({}, '', url);
+      
+      // Update header links
+      updateHeaderLinks();
+    }
+
+    // Update UI text based on locale
+    function updateUI() {
+      const t = translations[currentLocale];
+      
+      document.getElementById('viewer-title').textContent = t.title;
+      document.getElementById('header-login-btn').textContent = t.login;
+      document.getElementById('header-logout-btn').textContent = t.logout;
+      document.getElementById('clear-auth-btn').textContent = t.clearAuth;
+      
+      // Update nav links
+      document.getElementById('simple-viewer-link').textContent = t.simpleViewer;
+      document.getElementById('openseadragon-link').textContent = t.openSeadragon;
+      document.getElementById('leaflet-link').textContent = t.leafletIIIF;
+      document.getElementById('mirador-link').textContent = t.mirador;
+      document.getElementById('jwt-debug-link').textContent = t.jwtDebug;
+      document.getElementById('info-json-debug-link').textContent = t.infoJsonDebug;
+      document.getElementById('probe-debug-link').textContent = t.probeDebug;
+      document.getElementById('token-debug-link').textContent = t.tokenDebug;
+      
+      // Update language buttons
+      document.getElementById('en-btn').className = currentLocale === 'en' ? 'lang-btn active' : 'lang-btn';
+      document.getElementById('ja-btn').className = currentLocale === 'ja' ? 'lang-btn active' : 'lang-btn';
+      
+      // Update auth warning
+      document.getElementById('auth-warning-text').textContent = t.authWarning;
+      
+      updateAuthStatus();
+    }
+
+    // Update header links with locale
+    function updateHeaderLinks() {
+      const links = document.querySelectorAll('nav a');
+      links.forEach(link => {
+        if (link.href && !link.href.includes('mirador.html')) {
+          const url = new URL(link.href);
+          const path = url.pathname.replace(/^\/(en|ja)/, '');
+          link.href = `/${currentLocale}${path}`;
+        }
+      });
+      
+      // Update home link
+      document.getElementById('home-link').href = `/${currentLocale}`;
+    }
+
+    // Update authentication status
+    function updateAuthStatus() {
+      const token = localStorage.getItem('iiif_access_token');
+      currentToken = token;
+      
+      const t = translations[currentLocale];
+      const statusEl = document.getElementById('auth-status');
+      const statusText = document.getElementById('status-text');
+      const loginBtn = document.getElementById('header-login-btn');
+      const logoutBtn = document.getElementById('header-logout-btn');
+      const clearBtn = document.getElementById('clear-auth-btn');
+      
+      if (token && token !== 'null' && token !== 'undefined' && token.trim() !== '') {
+        statusEl.className = 'auth-status authenticated';
+        statusText.textContent = t.authenticated;
+        loginBtn.style.display = 'none';
+        logoutBtn.style.display = 'inline-block';
+        clearBtn.style.display = 'inline-block';
+      } else {
+        statusEl.className = 'auth-status not-authenticated';
+        statusText.textContent = t.notAuthenticated;
+        loginBtn.style.display = 'inline-block';
+        logoutBtn.style.display = 'none';
+        clearBtn.style.display = 'none';
+      }
+    }
+
+    // Initialize Mirador
+    function initializeMirador() {
+      const manifestUrl = getManifestUrl();
+      
+      // Display manifest URL
+      document.getElementById('manifest-url').textContent = manifestUrl;
+      
+      // Hide loading
+      document.getElementById('loading').style.display = 'none';
+      
+      // Configure Mirador with auth support
+      const config = {
+        id: 'mirador',
+        manifests: {
+          [manifestUrl]: {
+            provider: 'IIIF Auth Demo'
+          }
+        },
+        windows: [
+          {
+            manifestId: manifestUrl,
+            thumbnailNavigationPosition: 'far-bottom'
+          }
+        ],
+        window: {
+          allowClose: false,
+          allowFullscreen: true,
+          allowMaximize: true
+        },
+        workspaceControlPanel: {
+          enabled: true,
+        },
+        // Request configuration to include auth token
+        requests: {
+          preprocessors: [
+            (url, options) => {
+              const token = localStorage.getItem('iiif_access_token');
+              
+              if (token && token !== 'null' && token !== 'undefined' && token.trim() !== '') {
+                if (url.includes('/api/iiif/')) {
+                  options.headers = options.headers || {};
+                  options.headers['Authorization'] = `Bearer ${token}`;
+                }
+              }
+              return { url, options };
+            }
+          ]
+        }
+      };
+
+      miradorInstance = Mirador.viewer(config);
+    }
+
+    // Authenticate function  
+    function authenticate() {
+      const authUrl = new URL(`/${currentLocale}/auth`, window.location.origin);
+      window.location.href = authUrl.toString();
+    }
+
+    // Clear authentication
+    function clearAuth() {
+      localStorage.removeItem('iiif_access_token');
+      updateAuthStatus();
+      location.reload();
+    }
+
+    // Listen for storage events (cross-tab auth sync)
+    window.addEventListener('storage', (event) => {
+      if (event.key === 'iiif_access_token') {
+        updateAuthStatus();
+        if (event.newValue !== currentToken) {
+          location.reload();
+        }
+      }
+    });
+
+    // Initialize on load
+    window.addEventListener('load', () => {
+      currentLocale = getLocale();
+      updateUI();
+      updateHeaderLinks();
+      initializeMirador();
+    });
+  </script>
+</body>
+</html>

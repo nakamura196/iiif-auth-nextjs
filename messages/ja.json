@@ -16,6 +16,7 @@
     "simpleViewer": "シンプルビューア",
     "openSeadragon": "OpenSeadragon",
     "leafletIIIF": "Leaflet IIIF",
+    "mirador": "Mirador",
     "jwtDebug": "JWT デバッグ",
     "infoJsonDebug": "info.json デバッグ",
     "probeDebug": "Probe デバッグ",

@@ -14,6 +14,7 @@ export default function InfoJsonDebugPage() {
   const [error, setError] = useState<string>('');
   const [imageId, setImageId] = useState<string>('sample');
   const [isMobile, setIsMobile] = useState(false);
+  const [httpStatus, setHttpStatus] = useState<number | null>(null);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -38,6 +39,7 @@ export default function InfoJsonDebugPage() {
     setError('');
     setImageInfo(null);
     setRawJson('');
+    setHttpStatus(null);
 
     try {
       const infoUrl = `/api/iiif/image/${imageId}/info.json`;
@@ -49,6 +51,9 @@ export default function InfoJsonDebugPage() {
 
       const response = await fetch(infoUrl, { headers });
       const text = await response.text();
+      
+      // Always set the HTTP status
+      setHttpStatus(response.status);
       
       if (response.ok) {
         const data = JSON.parse(text);
@@ -199,6 +204,20 @@ export default function InfoJsonDebugPage() {
             fontSize: 'clamp(0.8rem, 1.5vw, 0.875rem)'
           }}>
             {error}
+          </div>
+        )}
+
+        {httpStatus && (
+          <div style={{ 
+            marginTop: '1rem',
+            padding: 'clamp(0.5rem, 2vw, 1rem)',
+            backgroundColor: httpStatus === 200 ? '#d4edda' : httpStatus === 401 ? '#fff3cd' : '#f8d7da',
+            color: httpStatus === 200 ? '#155724' : httpStatus === 401 ? '#856404' : '#721c24',
+            borderRadius: '4px',
+            fontSize: 'clamp(0.8rem, 1.5vw, 0.875rem)',
+            fontWeight: 'bold'
+          }}>
+            HTTP Status: {httpStatus} {httpStatus === 200 ? '(OK)' : httpStatus === 401 ? '(Unauthorized)' : ''}
           </div>
         )}
 

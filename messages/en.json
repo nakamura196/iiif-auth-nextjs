@@ -16,6 +16,7 @@
     "simpleViewer": "Simple Viewer",
     "openSeadragon": "OpenSeadragon",
     "leafletIIIF": "Leaflet IIIF",
+    "mirador": "Mirador",
     "jwtDebug": "JWT Debug",
     "infoJsonDebug": "info.json Debug",
     "probeDebug": "Probe Debug",

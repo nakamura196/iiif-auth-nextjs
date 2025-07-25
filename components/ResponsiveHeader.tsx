@@ -61,6 +61,7 @@ export default function ResponsiveHeader() {
     { href: '/viewer-simple', label: t('navigation.simpleViewer') },
     { href: '/viewer-openseadragon', label: t('navigation.openSeadragon') },
     { href: '/viewer-leaflet', label: t('navigation.leafletIIIF') },
+    { href: '/mirador.html', label: t('navigation.mirador'), isStatic: true },
   ];
 
   const debugLinks = [
@@ -73,13 +74,44 @@ export default function ResponsiveHeader() {
   const allLinks = [...navLinks, ...debugLinks];
 
   const renderLink = (link: any, index: number) => {
-    const localizedHref = `/${locale}${link.href}`;
-    const isActive = pathname === localizedHref;
+    const href = link.isStatic ? link.href : `/${locale}${link.href}`;
+    const isActive = pathname === href || (link.isStatic && pathname.includes(link.href));
+    
+    if (link.isStatic) {
+      return (
+        <a
+          key={index}
+          href={`${href}?locale=${locale}`}
+          onClick={() => setMobileMenuOpen(false)}
+          style={{
+            color: isActive ? '#4CAF50' : 'white',
+            textDecoration: 'none',
+            padding: '0.75rem 1rem',
+            display: 'block',
+            borderBottom: '1px solid #333',
+            backgroundColor: isActive ? 'rgba(76, 175, 80, 0.1)' : 'transparent',
+            transition: 'background-color 0.2s'
+          }}
+          onMouseEnter={(e) => {
+            if (!isActive) {
+              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (!isActive) {
+              e.currentTarget.style.backgroundColor = 'transparent';
+            }
+          }}
+        >
+          {link.label}
+        </a>
+      );
+    }
     
     return (
       <Link
         key={index}
-        href={localizedHref}
+        href={href}
         onClick={() => setMobileMenuOpen(false)}
         style={{
           color: isActive ? '#4CAF50' : 'white',
@@ -147,13 +179,41 @@ export default function ResponsiveHeader() {
             alignItems: 'center'
           }} className="desktop-nav">
             {navLinks.map((link, index) => {
-              const localizedHref = `/${locale}${link.href}`;
-              const isActive = pathname === localizedHref;
+              const href = link.isStatic ? link.href : `/${locale}${link.href}`;
+              const isActive = pathname === href || (link.isStatic && pathname.includes(link.href));
+              
+              if (link.isStatic) {
+                return (
+                  <a
+                    key={index}
+                    href={`${href}?locale=${locale}`}
+                    style={{
+                      color: isActive ? '#4CAF50' : 'white',
+                      textDecoration: 'none',
+                      fontSize: '0.875rem',
+                      transition: 'color 0.2s',
+                      whiteSpace: 'nowrap'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.color = '#81C784';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.color = 'white';
+                      }
+                    }}
+                  >
+                    {link.label}
+                  </a>
+                );
+              }
               
               return (
                 <Link
                   key={index}
-                  href={localizedHref}
+                  href={href}
                   style={{
                     color: isActive ? '#4CAF50' : 'white',
                     textDecoration: 'none',
