@@ -17,6 +17,7 @@
     "openSeadragon": "OpenSeadragon",
     "leafletIIIF": "Leaflet IIIF",
     "mirador": "Mirador",
+    "kioskViewer": "Kiosk Mode",
     "jwtDebug": "JWT Debug",
     "infoJsonDebug": "info.json Debug",
     "probeDebug": "Probe Debug",
@@ -77,6 +78,25 @@
   },
   "leafletViewer": {
     "title": "Leaflet IIIF Viewer"
+  },
+  "kioskViewer": {
+    "title": "Kiosk Mode Viewer",
+    "confirmationTitle": "Terms of Use",
+    "confirmationMessage": "This is a demonstration of IIIF Authentication API 2.0 Kiosk Pattern. By clicking 'Accept', you acknowledge that you have read and agree to the terms of use.",
+    "termsText": "This content is provided for demonstration purposes only. The Kiosk authentication pattern allows temporary access without requiring login credentials. Access is granted for this browser session only.",
+    "acceptButton": "Accept and View",
+    "declineButton": "Decline",
+    "accessGranted": "Access granted - You can now view the content",
+    "accessDenied": "Access denied - You must accept the terms to view the content",
+    "sessionInfo": "This access is valid for your current browser session only",
+    "aboutTitle": "About Kiosk Mode",
+    "aboutDescription": "The IIIF Authentication API 2.0 Kiosk pattern is designed for public terminals or situations where users need temporary access without creating accounts.",
+    "feature1": "No login credentials required",
+    "feature2": "Simple click-through confirmation",
+    "feature3": "Access limited to current browser session",
+    "technicalDetails": "Technical Details",
+    "infoJsonDescription": "View the IIIF Image Information (info.json) endpoint:",
+    "authServiceInfo": "Authentication Service Information from info.json"
   },
   "jwtDebug": {
     "title": "JWT Debug Tool",

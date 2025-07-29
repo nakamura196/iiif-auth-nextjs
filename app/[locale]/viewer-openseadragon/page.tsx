@@ -98,9 +98,17 @@ export default function OpenSeadragonViewerPage() {
       tokenUrl.searchParams.set('messageId', messageId);
       tokenUrl.searchParams.set('origin', window.location.origin);
       
-      const authWindow = window.open(tokenUrl.toString(), 'iiif-auth', 'width=600,height=600');
-      
-      const handleMessage = (event: MessageEvent) => {
+      // Delay window opening to ensure it's not blocked
+      setTimeout(() => {
+        const authWindow = window.open(tokenUrl.toString(), 'iiif-auth', 'width=600,height=600');
+        
+        if (!authWindow || authWindow.closed || typeof authWindow.closed === 'undefined') {
+          // Popup was blocked, show message
+          setAuthStatus(t('viewers.authRequired') + ' - ' + t('tokenDebug.popupBlocked'));
+          return;
+        }
+        
+        const handleMessage = (event: MessageEvent) => {
         if (event.data.messageId === messageId) {
           localStorage.setItem('iiif_access_token', event.data.accessToken);
           setCurrentToken(event.data.accessToken);
@@ -120,6 +128,7 @@ export default function OpenSeadragonViewerPage() {
       };
       
       window.addEventListener('message', handleMessage);
+      }, 100); // Small delay to avoid popup blockers
     }
   };
 
@@ -162,10 +171,10 @@ export default function OpenSeadragonViewerPage() {
             <div style={{ 
               marginTop: '0.5rem', 
               padding: '0.5rem', 
-              backgroundColor: authStatus.includes('required') ? '#fff3cd' : '#d1ecf1',
+              backgroundColor: authStatus.includes('required') || authStatus.includes(t('viewers.authRequired')) ? '#fff3cd' : '#d1ecf1',
               borderRadius: '4px',
               fontSize: '0.875rem',
-              color: authStatus.includes('required') ? '#856404' : '#004085'
+              color: authStatus.includes('required') || authStatus.includes(t('viewers.authRequired')) ? '#856404' : '#004085'
             }}>
               {authStatus}
               {authStatus === t('common.authenticationRequired') && ` - ${t('openSeadragonViewer.authRequiredMessage')}`}

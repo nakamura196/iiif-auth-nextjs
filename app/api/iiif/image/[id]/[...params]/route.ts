@@ -16,6 +16,40 @@ export async function GET(
     token = request.nextUrl.searchParams.get('token') || '';
   }
   
+  // Check for kiosk mode token
+  const kioskToken = request.nextUrl.searchParams.get('kiosk');
+  if (kioskToken && kioskToken.startsWith('kiosk-confirmed-')) {
+    // Kiosk mode - no authentication required, just confirmation
+    // In production, you might want to validate the kiosk token format or timestamp
+    const svg = `
+<svg width="750" height="1000" xmlns="http://www.w3.org/2000/svg">
+  <rect width="750" height="1000" fill="#f0f0f0"/>
+  <text x="375" y="450" font-family="Arial" font-size="48" text-anchor="middle" fill="#333">
+    Kiosk Mode Image
+  </text>
+  <text x="375" y="510" font-family="Arial" font-size="24" text-anchor="middle" fill="#666">
+    This content is available after
+  </text>
+  <text x="375" y="540" font-family="Arial" font-size="24" text-anchor="middle" fill="#666">
+    accepting terms and conditions
+  </text>
+  <text x="375" y="600" font-family="Arial" font-size="18" text-anchor="middle" fill="#999">
+    Session: ${kioskToken.substring(15, 25)}...
+  </text>
+</svg>`;
+    
+    return new NextResponse(svg, {
+      headers: {
+        'Content-Type': 'image/svg+xml',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Authorization, Content-Type',
+        'Cache-Control': 'no-store, no-cache, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      },
+    });
+  }
+  
   // Check authentication - ensure token is valid string and not null/empty
   const isValid = (token && token !== 'null' && token !== 'undefined' && token.trim() !== '') 
     ? await verifyToken(token) 

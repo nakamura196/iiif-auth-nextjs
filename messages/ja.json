@@ -17,6 +17,7 @@
     "openSeadragon": "OpenSeadragon",
     "leafletIIIF": "Leaflet IIIF",
     "mirador": "Mirador",
+    "kioskViewer": "キオスクモード",
     "jwtDebug": "JWT デバッグ",
     "infoJsonDebug": "info.json デバッグ",
     "probeDebug": "Probe デバッグ",
@@ -77,6 +78,25 @@
   },
   "leafletViewer": {
     "title": "Leaflet IIIFビューア"
+  },
+  "kioskViewer": {
+    "title": "キオスクモードビューア",
+    "confirmationTitle": "利用規約",
+    "confirmationMessage": "これはIIIF認証API 2.0キオスクパターンのデモンストレーションです。「同意して表示」をクリックすることで、利用規約を読み、同意したことを確認します。",
+    "termsText": "このコンテンツはデモンストレーション目的でのみ提供されています。キオスク認証パターンでは、ログイン認証情報を必要とせずに一時的なアクセスが可能です。アクセスは現在のブラウザセッションのみ有効です。",
+    "acceptButton": "同意して表示",
+    "declineButton": "拒否",
+    "accessGranted": "アクセスが許可されました - コンテンツを表示できます",
+    "accessDenied": "アクセスが拒否されました - コンテンツを表示するには規約に同意する必要があります",
+    "sessionInfo": "このアクセスは現在のブラウザセッションのみ有効です",
+    "aboutTitle": "キオスクモードについて",
+    "aboutDescription": "IIIF認証API 2.0キオスクパターンは、公共端末やアカウント作成なしで一時的なアクセスが必要な状況向けに設計されています。",
+    "feature1": "ログイン認証情報不要",
+    "feature2": "シンプルなクリックスルー確認",
+    "feature3": "現在のブラウザセッションに限定されたアクセス",
+    "technicalDetails": "技術詳細",
+    "infoJsonDescription": "IIIF画像情報（info.json）エンドポイントを表示：",
+    "authServiceInfo": "info.jsonから取得した認証サービス情報"
   },
   "jwtDebug": {
     "title": "JWTデバッグツール",

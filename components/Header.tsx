@@ -61,6 +61,7 @@ export default function Header() {
     { href: '/viewer-openseadragon', label: t('navigation.openSeadragon') },
     { href: '/viewer-leaflet', label: t('navigation.leafletIIIF') },
     { href: '/viewer', label: t('navigation.mirador') },
+    { href: '/viewer-kiosk', label: t('navigation.kioskViewer') },
   ];
 
   const debugLinks = [

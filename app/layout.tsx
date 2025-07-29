@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_URL || 'https://iiif-auth-nextjs.vercel.app'),
   title: {
     default: 'IIIF Authentication API 2.0 Demo',
     template: '%s | IIIF Auth Demo'
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     siteName: 'IIIF Auth Demo',
     images: [
       {
-        url: '/ogp-image.png',
+        url: 'https://iiif-auth-nextjs.vercel.app/ogp-image.png',
         width: 1200,
         height: 630,
         alt: 'IIIF Authentication API 2.0 Demo'
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'IIIF Authentication API 2.0 Demo',
     description: 'A comprehensive demonstration of the IIIF Authentication API 2.0 specification',
-    images: ['/ogp-image.png'],
+    images: ['https://iiif-auth-nextjs.vercel.app/ogp-image.png'],
     creator: '@iiif_io'
   },
   

@@ -154,9 +154,17 @@ export default function LeafletIIIFViewerPage() {
       tokenUrl.searchParams.set('messageId', messageId);
       tokenUrl.searchParams.set('origin', window.location.origin);
       
-      const authWindow = window.open(tokenUrl.toString(), 'iiif-auth', 'width=600,height=600');
-      
-      const handleMessage = (event: MessageEvent) => {
+      // Delay window opening to ensure it's not blocked
+      setTimeout(() => {
+        const authWindow = window.open(tokenUrl.toString(), 'iiif-auth', 'width=600,height=600');
+        
+        if (!authWindow || authWindow.closed || typeof authWindow.closed === 'undefined') {
+          // Popup was blocked, show message
+          setAuthStatus(t('viewers.authRequired') + ' - ' + t('tokenDebug.popupBlocked'));
+          return;
+        }
+        
+        const handleMessage = (event: MessageEvent) => {
         if (event.data.messageId === messageId) {
           localStorage.setItem('iiif_access_token', event.data.accessToken);
           setAuthStatus(t('miradorViewer.reloading'));
@@ -174,6 +182,7 @@ export default function LeafletIIIFViewerPage() {
       };
       
       window.addEventListener('message', handleMessage);
+      }, 100); // Small delay to avoid popup blockers
     }
   };
 
@@ -214,14 +223,14 @@ export default function LeafletIIIFViewerPage() {
           
           <AuthStatus onAuthChange={handleAuthChange} />
           
-          {authStatus && authStatus !== t('common.authenticationRequired') && (
+          {authStatus && (
             <div style={{ 
               marginTop: '0.5rem', 
               padding: 'clamp(0.4rem, 1vw, 0.5rem)', 
-              backgroundColor: authStatus === t('common.authenticationRequired') ? '#fff3cd' : '#d1ecf1',
+              backgroundColor: authStatus === t('common.authenticationRequired') || authStatus.includes(t('viewers.authRequired')) ? '#fff3cd' : '#d1ecf1',
               borderRadius: '4px',
               fontSize: 'clamp(0.8rem, 1.5vw, 0.875rem)',
-              color: authStatus === t('common.authenticationRequired') ? '#856404' : '#004085'
+              color: authStatus === t('common.authenticationRequired') || authStatus.includes(t('viewers.authRequired')) ? '#856404' : '#004085'
             }}>
               {authStatus}
               {authStatus === t('common.authenticationRequired') && ` - ${t('openSeadragonViewer.authRequiredMessage')}`}

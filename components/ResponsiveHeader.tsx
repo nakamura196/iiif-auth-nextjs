@@ -62,6 +62,7 @@ export default function ResponsiveHeader() {
     { href: '/viewer-openseadragon', label: t('navigation.openSeadragon') },
     { href: '/viewer-leaflet', label: t('navigation.leafletIIIF') },
     { href: '/mirador.html', label: t('navigation.mirador'), isStatic: true },
+    { href: '/viewer-kiosk', label: t('navigation.kioskViewer') },
   ];
 
   const debugLinks = [
