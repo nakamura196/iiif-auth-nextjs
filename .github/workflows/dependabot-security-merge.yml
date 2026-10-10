@@ -27,6 +27,9 @@ permissions:
   contents: write
   pull-requests: write
   actions: write
+  # gh pr checks が他のチェック (CI など) の結果を読むのに要る
+  checks: read
+  statuses: read
 
 env:
   # マージ後に起動するワークフロー (空白区切り。無ければ空)
@@ -89,9 +92,14 @@ jobs:
         run: |
           set -uo pipefail
           sleep 60
-          i=0
+          i=0; err=$(mktemp)
           while [ $i -lt 100 ]; do
-            json=$(gh pr checks "$PR" -R "$REPO" --json name,bucket,workflow 2>/dev/null) || true  # 待ち中は終了コード 8
+            # 終了コード: 0=すべて完了 8=待ち中。それ以外は読めていない
+            rc=0; json=$(gh pr checks "$PR" -R "$REPO" --json name,bucket,workflow 2>"$err") || rc=$?
+            if [ $rc -ne 0 ] && [ $rc -ne 8 ]; then
+              if grep -q "no checks reported" "$err" && [ $i -lt 10 ]; then json='[]'
+              else echo "::error::チェックを読めません (rc=$rc): $(cat "$err")"; exit 1; fi
+            fi
             [ -n "$json" ] || json='[]'
             others=$(echo "$json" | jq --arg s "$SELF" '[.[] | select(.workflow != $s)]')
             total=$(echo "$others" | jq length)
@@ -100,6 +108,8 @@ jobs:
             echo "checks: total=$total pending=$pending failed=$bad"
             if [ "$bad" -gt 0 ]; then echo "::warning::失敗したチェックがあるので取り込みません"; exit 0; fi
             if [ "$total" -gt 0 ] && [ "$pending" -eq 0 ]; then echo "ok=true" >> "$GITHUB_OUTPUT"; exit 0; fi
+            # 5 分たっても 1 件も見えないなら、待っても変わらない (CI が無いか、読めていない)
+            if [ "$total" -eq 0 ] && [ $i -ge 10 ]; then echo "::error::他のチェックが 1 件も見えません"; exit 1; fi
             sleep 30; i=$((i+1))
           done
           echo "::warning::チェックが無い、または時間内に終わらないので取り込みません"
