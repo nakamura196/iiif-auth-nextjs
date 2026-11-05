@@ -3,13 +3,14 @@ import { IIIF_PRESENTATION_TYPES, IIIF_IMAGE_TYPES, IIIF_AUTH_TYPES, IIIF_CONTEX
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const baseUrl = request.nextUrl.origin;
   
   const manifest = {
     "@context": IIIF_CONTEXTS.PRESENTATION_3,
-    "id": `${baseUrl}/api/iiif/manifest/${params.id}`,
+    "id": `${baseUrl}/api/iiif/manifest/${id}`,
     "type": IIIF_PRESENTATION_TYPES.MANIFEST,
     "label": {
       "en": ["Sample Manifest"]
@@ -22,7 +23,7 @@ export async function GET(
     ],
     "items": [
       {
-        "id": `${baseUrl}/api/iiif/manifest/${params.id}/canvas/1`,
+        "id": `${baseUrl}/api/iiif/manifest/${id}/canvas/1`,
         "type": IIIF_PRESENTATION_TYPES.CANVAS,
         "label": {
           "en": ["Protected Image"]
@@ -31,22 +32,22 @@ export async function GET(
         "width": 750,
         "items": [
           {
-            "id": `${baseUrl}/api/iiif/manifest/${params.id}/canvas/1/page`,
+            "id": `${baseUrl}/api/iiif/manifest/${id}/canvas/1/page`,
             "type": "AnnotationPage",
             "items": [
               {
-                "id": `${baseUrl}/api/iiif/manifest/${params.id}/canvas/1/annotation`,
+                "id": `${baseUrl}/api/iiif/manifest/${id}/canvas/1/annotation`,
                 "type": IIIF_PRESENTATION_TYPES.ANNOTATION,
                 "motivation": "painting",
                 "body": {
-                  "id": `${baseUrl}/api/iiif/image/${params.id}/full/max/0/default.jpg`,
+                  "id": `${baseUrl}/api/iiif/image/${id}/full/max/0/default.jpg`,
                   "type": "Image",
                   "format": "image/jpeg",
                   "service": [
                     {
                       "@context": IIIF_CONTEXTS.IMAGE_3,
-                      "@id": `${baseUrl}/api/iiif/image/${params.id}`,
-                      "id": `${baseUrl}/api/iiif/image/${params.id}`,
+                      "@id": `${baseUrl}/api/iiif/image/${id}`,
+                      "id": `${baseUrl}/api/iiif/image/${id}`,
                       "type": IIIF_IMAGE_TYPES.IMAGE_SERVICE,
                       "profile": IIIF_PROFILES.IMAGE_LEVEL2
                     }
@@ -54,7 +55,7 @@ export async function GET(
                   "height": 1000,
                   "width": 750
                 },
-                "target": `${baseUrl}/api/iiif/manifest/${params.id}/canvas/1`
+                "target": `${baseUrl}/api/iiif/manifest/${id}/canvas/1`
               }
             ]
           }

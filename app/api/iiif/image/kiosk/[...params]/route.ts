@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { params: string[] } }
+  { params }: { params: Promise<{ params: string[] }> }
 ) {
   // Check for kiosk token
   const kioskToken = request.nextUrl.searchParams.get('kiosk');
