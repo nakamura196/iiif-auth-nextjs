@@ -6,7 +6,7 @@ import { IIIF_AUTH_TYPES, IIIF_CONTEXTS } from '@/types/iiif-constants';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string; params: string[] } }
+  { params }: { params: Promise<{ id: string; params: string[] }> }
 ) {
   const authHeader = request.headers.get('authorization');
   let token = authHeader?.replace('Bearer ', '');

@@ -4,8 +4,9 @@ import { IIIF_AUTH_TYPES, IIIF_IMAGE_TYPES, IIIF_CONTEXTS, IIIF_PROFILES } from 
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const authHeader = request.headers.get('authorization');
   let token = authHeader?.replace('Bearer ', '');
   
@@ -22,8 +23,8 @@ export async function GET(
   // Return IIIF Image API info.json
   const info: any = {
     "@context": IIIF_CONTEXTS.IMAGE_3,
-    "@id": `${request.nextUrl.origin}/api/iiif/image/${params.id}`,
-    "id": `${request.nextUrl.origin}/api/iiif/image/${params.id}`,
+    "@id": `${request.nextUrl.origin}/api/iiif/image/${id}`,
+    "id": `${request.nextUrl.origin}/api/iiif/image/${id}`,
     "type": IIIF_IMAGE_TYPES.IMAGE_SERVICE,
     "protocol": "http://iiif.io/api/image",
     "profile": IIIF_PROFILES.IMAGE_LEVEL2,
